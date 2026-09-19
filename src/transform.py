@@ -6,10 +6,6 @@ print("Transformation Started...")
 # Create processed folder
 os.makedirs("../data/processed", exist_ok=True)
 
-# =====================================
-# READ STAGING FILES
-# =====================================
-
 sales = pd.read_csv(
     "../data/staging/sales_stg.csv"
 )
@@ -22,9 +18,7 @@ customers = pd.read_csv(
     "../data/staging/customers_stg.csv"
 )
 
-# =====================================
 # SALES CLEANING
-# =====================================
 
 sales.drop_duplicates(inplace=True)
 
@@ -47,25 +41,18 @@ sales = sales[
 ]
 
 # Remove invalid quantity
-
 sales = sales[
     sales["Quantity"] > 0
 ]
 
-# =====================================
 # SURROGATE KEY
-# =====================================
-
 sales.insert(
     0,
     "SalesID_SK",
     range(1, len(sales) + 1)
 )
 
-# =====================================
 # DATE DIMENSION
-# =====================================
-
 dim_date = pd.DataFrame()
 
 dim_date["Date"] = sales["Timestamp"].dt.date
@@ -97,9 +84,8 @@ dim_date["MonthName"] = (
     pd.to_datetime(dim_date["Date"])
     .dt.month_name()
 )
-# =====================================
+
 # PRODUCT DIMENSION
-# =====================================
 
 dim_products = products.copy()
 
@@ -133,9 +119,7 @@ dim_products["Category"] = (
     .fillna("Unknown Category")
 )
 
-# =====================================
 # CUSTOMER DIMENSION
-# =====================================
 
 dim_customers = customers.copy()
 
@@ -197,9 +181,7 @@ dim_customers["Region"] = (
     })
 )
 
-# =====================================
 # REGION DIMENSION
-# =====================================
 
 dim_region = pd.DataFrame()
 
@@ -230,9 +212,7 @@ dim_region["RegionID"] = range(
     len(dim_region) + 1
 )
 
-# =====================================
 # FACT TABLE
-# =====================================
 
 sales["DateKey"] = (
     sales["Timestamp"]
@@ -252,9 +232,7 @@ fact_sales = sales[
     ]
 ]
 
-# =====================================
 # EXPORT FILES
-# =====================================
 
 dim_customers.to_csv(
     "../data/processed/dim_customers.csv",
@@ -280,10 +258,6 @@ fact_sales.to_csv(
     "../data/processed/fact_sales.csv",
     index=False
 )
-
-# =====================================
-# SUMMARY
-# =====================================
 
 print("\nTransformation Completed")
 
