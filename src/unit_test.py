@@ -18,9 +18,7 @@ dim_date = pd.read_csv(
     "../data/processed/dim_date.csv"
 )
 
-# -------------------------
 # FACT TABLE TESTS
-# -------------------------
 
 assert len(fact_sales) > 0
 
@@ -33,9 +31,7 @@ assert (
     == 0
 )
 
-# -------------------------
 # CUSTOMER DIMENSION TESTS
-# -------------------------
 
 assert len(dim_customers) > 0
 
@@ -46,9 +42,7 @@ assert (
     == 0
 )
 
-# -------------------------
 # PRODUCT DIMENSION TESTS
-# -------------------------
 
 assert len(dim_products) > 0
 
@@ -59,9 +53,7 @@ assert (
     == 0
 )
 
-# -------------------------
 # DATE DIMENSION TESTS
-# -------------------------
 
 assert len(dim_date) > 0
 
